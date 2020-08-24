@@ -1,0 +1,103 @@
+<%- include('../partials/header') %>
+
+<!-- list out the details about the selected flight -->
+<section id="show-page">
+  <h2>Flight Details</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Airline</th>
+        <th>Airport</th>
+        <th>Flight Number</th>
+        <th>Departure</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><%= flight.airline %></td>
+        <td><%= flight.airport %></td>
+        <td><%= flight.flightNo %></td>
+        <td><%= flight.departs %></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- list out tickets for the flight  -->
+<section><h2>Tickets</h2></section>
+<% if (tickets.length) { %>
+<section>
+  <table class="table">
+    <thead>
+      <% tickets.forEach(function(t) { %>
+      <tr>
+        <th>Seat</th>
+        <th>Price</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><%= t.seat %></td>
+        <td><%= t.price %></td>
+      </tr>
+      <% }); %>
+    </tbody>
+  </table>
+</section>
+<% } else { %>
+<section><h4>No Tickets Yet</h4></section>
+<% } %>
+<div>
+  <a href="/tickets/new/<%=flight.id%>"
+    ><button class="btn btn-primary">Add Ticket</button></a
+  >
+</div>
+
+<!-- list out the destinations that someone has added -->
+
+<section><h2>Destinations</h2></section>
+<% if (flight.destinations.length) { %>
+<section>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Airport</th>
+        <th>Arrival</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% flight.destinations.forEach(function(d) { %>
+      <tr>
+        <td><%= d.airport %></td>
+        <td><%= d.arrival %></td>
+      </tr>
+      <% }); %>
+    </tbody>
+  </table>
+</section>
+<% } else { %>
+<section><h4>No Destinations Yet</h4></section>
+<% } %>
+
+<!-- form to enter in destinations for the given flight -->
+<section>
+  <form method="POST" action="/flights/<%= flight.id%>/destinations">
+    <div class="form-group">
+      <label>Destinations</label>
+      <select class="form-control" name="airport">
+        <option value="AUS">AUS</option>
+        <option value="DFW">DFW</option>
+        <option value="DEN">DEN</option>
+        <option value="LAX">LAX</option>
+        <option value="SAN">SAN</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Arrival</label>
+      <input class="form-control" type="datetime-local" name="arrival" />
+    </div>
+    <input class="btn btn-primary" type="submit" value="Add Destination" />
+  </form>
+</section>
+
+<%- include('../partials/footer') %>
